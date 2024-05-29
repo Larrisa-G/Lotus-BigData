@@ -9,7 +9,8 @@ df['mes'] = df['data de início'].dt.month
 media_classificação = df.groupby(['ano', 'mes'])['classificação'].mean().reset_index()
 
 meses_maior_satisfação = media_classificação.loc[media_classificação.groupby('ano')['classificação'].idxmax()]
-print(meses_maior_satisfação)
 
 meses_menor_satisfação = media_classificação.loc[media_classificação.groupby('ano')['classificação'].idxmin()]
-print(meses_menor_satisfação)
+
+df['lucro'] = df.apply(lambda x : x['valor final da obra'] + x['valor final da obra'] * 0.10, axis =1)
+print(df['lucro'])
