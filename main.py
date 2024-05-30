@@ -1,6 +1,7 @@
 import pandas as pd
 
 df = pd.read_excel('dados_parte_interessada.xlsx')
+df = df.drop(0)
 
 df['ano'] = df['data de início'].dt.year
 df['mes'] = df['data de início'].dt.month
@@ -12,5 +13,6 @@ meses_maior_satisfação = media_classificação.loc[media_classificação.group
 
 meses_menor_satisfação = media_classificação.loc[media_classificação.groupby('ano')['classificação'].idxmin()]
 
-df['lucro'] = df.apply(lambda x : x['valor final da obra'] + x['valor final da obra'] * 0.10, axis =1)
-print(df['lucro'])
+
+df['lucro'] = df.apply(lambda x : x['valor final da obra'] * 0.03, axis=1)
+print(df)
