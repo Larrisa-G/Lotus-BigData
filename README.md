@@ -37,3 +37,11 @@ Exemplo de uso : Mostrar o mês com menor média de lucro do ano.
 Exemplo de uso : Mostrar o cliente que mais contratou a empresa desde sua fundação.
 
 **6** `moda_mensal(df,coluna)` : Calcula a moda mensal. 
+
+**7** `maior_media_por_mes(df,coluna)` : Calcula a média por mês e mostra qual foi a maior.
+
+Exemplo de uso : Mostrar o mês que teve mais lucro ao longo dos anos
+
+**8** `maior_media_por_mes(df,coluna)` : Calcula a média por mês e mostra qual foi a menor.
+
+Exemplo de uso : Mostrar o mês que teve o menor lucro ao longo dos anos
