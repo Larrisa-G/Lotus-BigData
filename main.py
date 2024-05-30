@@ -6,16 +6,25 @@ df = df.drop(0)
 df['ano'] = df['data de início'].dt.year
 df['mes'] = df['data de início'].dt.month
 
-#reset_index - para garantir o padrão dos index
-media_classificação = df.groupby(['ano', 'mes'])['classificação'].mean().reset_index()
-
-meses_maior_satisfação = media_classificação.loc[media_classificação.groupby('ano')['classificação'].idxmax()]
-meses_menor_satisfação = media_classificação.loc[media_classificação.groupby('ano')['classificação'].idxmin()]
-
 df['lucro'] = df.apply(lambda x : x['valor final da obra'] * 0.03, axis=1)
 df['preço cobrado'] = df.apply(lambda x : x['valor final da obra'] + x['lucro'], axis=1)
 
-df_meses_menor_lucro = df.loc[df.groupby('ano')['lucro'].idxmin()] 
-df_meses_maior_lucro = df.loc[df.groupby('ano')['lucro'].idxmax()]
+def maior_media(df,coluna):
+    media = df.groupby(['ano', 'mes'])[coluna].mean().reset_index()
+    return media.loc[media.groupby('ano')[coluna].idxmax()]
 
-df_clientela = df['clientes'].value_counts().reset_index()
+def menor_media(df,coluna):
+    media = df.groupby(['ano', 'mes'])[coluna].mean().reset_index()
+    return media.loc[media.groupby('ano')[coluna].idxmin()]
+
+def frequencia_geral(df,coluna):
+    return df[coluna].value_counts().reset_index()
+
+def frequencia_anual(df, coluna):
+    return df.groupby('ano')[coluna].value_counts().reset_index()
+
+
+frequencia_geral(df,'mes')  #Quantas obras foram realizadas em cada mês
+frequencia_anual(df,'mes')  #Quantas obras foram realizadas em cada mês de cada ano
+maior_media(df,'lucro')
+menor_media(df, 'lucro')
