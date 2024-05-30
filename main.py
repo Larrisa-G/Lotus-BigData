@@ -15,4 +15,7 @@ meses_menor_satisfação = media_classificação.loc[media_classificação.group
 
 
 df['lucro'] = df.apply(lambda x : x['valor final da obra'] * 0.03, axis=1)
+
+df['preço cobrado'] = df.apply(lambda x : x['valor final da obra'] + x['lucro'], axis=1)
+
 print(df)
