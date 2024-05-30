@@ -12,11 +12,23 @@
 - Pandas
 - openpyxl
 
-# Dataframes principais
 
+# Funções
 
-**1.** `df` : tabela principal que contém os dados extraidos do exel recebido da parte interessada.
+**1** `frequencia_geral(df, coluna)` : Calcula frequência 
+Exemplo de uso : Descobrir quantas obras foram realizadas em cada cliente desde a fundação da empresa
 
-**2.** `meses_menor_satisfação` : Indica qual o mês do ano emque as obras tiveram notas mais baixas de avaliação, e sua média de classificação.
+**2.** `frequencia_anual(df,coluna)` : Calcula a frequência anual de um evento. 
+Exemplo de uso : Mensurar quantas obras foram realizadas em cada mês de cada ano
 
-**3.** `meses_menor_satisfação` : Indica qual o mês do ano emque as obras formam mais bem avaliadas, e sua média de classificação. 
+**3.** `maior_media_por_ano(df, coluna)` : Calcula a média por mês e mostra qual foi a maior média do ano. 
+Exemplo de uso : Indicar qual o mês em que as obras formam mais bem avaliadas, e sua média de classificação
+
+**4** `menor_media_por_ano(df, coluna)` : Calcula a média por mês e mostra qual foi a menor média do ano. 
+Exemplo de uso : Mostrar o mês com menor média de lucro do ano
+
+**5** `moda(df,coluna)` : Calcula a moda. 
+Exemplo de uso : Mostrar o cliente que mais contratou a empresa desde sua fundação 
+
+**6** `moda_mensal(df,coluna)` : Calcula a moda mensal. 
+Exemplo de uso : 
