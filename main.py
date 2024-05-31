@@ -35,13 +35,19 @@ def menor_media_por_mes(df,coluna):
     media = df.groupby(['mes'])[coluna].mean().reset_index()
     return media.loc[media[coluna].idxmin()]
 
-frequencia_geral(df,'mes')              # Quantas obras foram realizadas em cada mês
-frequencia_anual(df,'mes')              # Quantas obras foram realizadas em cada mês de cada ano
-frequencia_anual(df, 'clientes')        # Quantas vezes cada cliente contratou os serviços da empresa por ano
-maior_media_por_ano(df,'administração')         # Mês com maior média de lucro do ano
-menor_media_por_ano(df, 'administração')        # Mês com menor média de lucro do ano
-moda(df,'clientes')                     # Calcula a moda
-moda_mensal(df,'clientes')              # Calcula a moda mensal
-maior_media_por_mes(df,"classificação")
-menor_media_por_mes(df,'administração')
+df1 = frequencia_geral(df,'mes')                    # Quantas obras foram realizadas em cada mês
+df2 = frequencia_anual(df,'mes')                    # Quantas obras foram realizadas em cada mês de cada ano
+df3 =frequencia_anual(df, 'clientes')               # Quantas vezes cada cliente contratou os serviços da empresa por ano
+df4 =maior_media_por_ano(df,'classificação')        # Mês com maior média de satisfação
+df5 = menor_media_por_ano(df, 'administração')      # Mês com menor média de lucro do ano
+df6 = moda(df,'clientes')                           # Calcula a moda
+df7 = moda_mensal(df,'clientes')                    # Calcula a moda mensal
+df8 = maior_media_por_mes(df,"classificação")       # mostrar o mês que teve maior média de notas de classificação
+df9 = menor_media_por_mes(df,'administração')       # mostrar o mês que menos gera lucro
 
+df1.to_excel("obras_realizadas_desde_fundação .xlsx")
+df2.to_excel("obras_realizadas_mensalmente.xlsx") 
+df4.to_excel("meses_maior_satisfação.xlsx")
+df5.to_excel("meses_menor_lucro.xlsx")
+df8.to_excel("mês_maior_satisfação.xlsx")
+df9.to_excel("mês_menor_lucro.xlsx")
