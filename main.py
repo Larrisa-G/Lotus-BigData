@@ -6,8 +6,6 @@ df = df.drop(0)
 df['ano'] = df['data de início'].dt.year
 df['mes'] = df['data de início'].dt.month
 
-df['lucro'] = df.apply(lambda x : x['valor final da obra'] * 0.03, axis=1)
-df['preço cobrado'] = df.apply(lambda x : x['valor final da obra'] + x['lucro'], axis=1)
 
 def maior_media_por_ano(df,coluna):
     media = df.groupby(['ano', 'mes'])[coluna].mean().reset_index()
@@ -40,9 +38,10 @@ def menor_media_por_mes(df,coluna):
 frequencia_geral(df,'mes')              # Quantas obras foram realizadas em cada mês
 frequencia_anual(df,'mes')              # Quantas obras foram realizadas em cada mês de cada ano
 frequencia_anual(df, 'clientes')        # Quantas vezes cada cliente contratou os serviços da empresa por ano
-maior_media_por_ano(df,'lucro')         # Mês com maior média de lucro do ano
-menor_media_por_ano(df, 'lucro')        # Mês com menor média de lucro do ano
+maior_media_por_ano(df,'administração')         # Mês com maior média de lucro do ano
+menor_media_por_ano(df, 'administração')        # Mês com menor média de lucro do ano
 moda(df,'clientes')                     # Calcula a moda
 moda_mensal(df,'clientes')              # Calcula a moda mensal
 maior_media_por_mes(df,"classificação")
-menor_media_por_mes(df,'lucro')
+menor_media_por_mes(df,'administração')
+
