@@ -11,6 +11,7 @@
 - Extensão Python VSCode
 - Pandas
 - openpyxl
+- matplotlib
 
 
 ## Funções
