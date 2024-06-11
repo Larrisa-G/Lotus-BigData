@@ -6,11 +6,11 @@
 
 
 
-- Python
-- Visual Studio Code
-- Extensão Python VSCode
+- Visual Studio (com Python Development Workload)
+- Python 3.x
 - Pandas
 - openpyxl
+- typing (incluído na biblioteca padrão do Python)
 
 
 ## Funções
@@ -52,4 +52,4 @@ Exemplo de uso : Calcular a inflação acumulada dos anos que não foram informa
 
 **10** `previsao(df,coluna, ipcas : List[float])` : Aplica a inflação acumulada para prever valores em uma coluna.
 
-Exemplo de uso : Prever o valor do material para o ano de 2024 tendo como referência a coluna com os valores do ano de 2020.
+Exemplo de uso : Prever o valor do material para o ano de 2024 tendo como referência a coluna com os valores do ano de 2020
