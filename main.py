@@ -1,4 +1,5 @@
 import pandas as pd
+from typing import List
 
 df = pd.read_excel('dados_parte_interessada.xlsx')
 df = df.drop(0)
@@ -6,6 +7,26 @@ df = df.drop(0)
 df['ano'] = df['data de início'].dt.year
 df['mes'] = df['data de início'].dt.month
 
+
+def previsao(df,coluna, ipcas : List[float]):
+
+    def calcular_inflacao_acumulada(ipcas_anuais : List[float]) :
+
+        ipcas_indices = [(1 + ipca /100) for ipca in ipcas_anuais] # Converter os percentuais em indices
+        inflacao_acumulada = 1
+
+        for indice in ipcas_indices:
+            inflacao_acumulada *= indice
+        inflacao_acumulada = (inflacao_acumulada - 1)*100 # Voltar para porcentagem
+
+        return inflacao_acumulada
+
+    df = df[df['data de início'].dt.year == 2000]
+
+    inflacao_acumulada = calcular_inflacao_acumulada(ipcas) # ipcas de 2021 a 2024 segundo SEBRAS
+    df['dado simulado'] = df[coluna] * (1 + inflacao_acumulada /100)
+    
+    return df['dado simulado'].round(2) # Formatar para duas casas decimais
 
 def maior_media_por_ano(df,coluna):
     media = df.groupby(['ano', 'mes'])[coluna].mean().reset_index()
@@ -35,7 +56,7 @@ def menor_media_por_mes(df,coluna):
     media = df.groupby(['mes'])[coluna].mean().reset_index()
     return media.loc[media[coluna].idxmin()]
 
-df1 = frequencia_geral(df,'mes')                    # Quantas obras foram realizadas em cada mês
+'''df1 = frequencia_geral(df,'mes')                    # Quantas obras foram realizadas em cada mês
 df2 = frequencia_anual(df,'mes')                    # Quantas obras foram realizadas em cada mês de cada ano
 df3 =frequencia_anual(df, 'clientes')               # Quantas vezes cada cliente contratou os serviços da empresa por ano
 df4 =maior_media_por_ano(df,'classificação')        # Mês com maior média de satisfação
@@ -50,4 +71,7 @@ df2.to_excel("obras_realizadas_mensalmente.xlsx")
 df4.to_excel("meses_maior_satisfação.xlsx")
 df5.to_excel("meses_menor_lucro.xlsx")
 df8.to_excel("mês_maior_satisfação.xlsx")
-df9.to_excel("mês_menor_lucro.xlsx")
+df9.to_excel("mês_menor_lucro.xlsx")'''
+
+df_prev = previsao(df, 'valor de material', [ 10.06, 5.79, 4.62, 1.42])
+print(df_prev)
