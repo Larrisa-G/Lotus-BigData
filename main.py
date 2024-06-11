@@ -65,7 +65,7 @@ df8 = maior_media_por_mes(df,"classificação")       # mostrar o mês que teve 
 df9 = menor_media_por_mes(df,'administração')       # mostrar o mês que menos gera lucro
 df10 = previsao(df, 'valor de material', [ 10.06, 5.79, 4.62, 1.42])    # Presisão dos valores de material para 2024
 
-df1.to_excel("obras_realizadas_desde_fundação .xlsx")
+df1.to_excel("obras_realizadas_desde_fundação.xlsx")
 df2.to_excel("obras_realizadas_mensalmente.xlsx") 
 df4.to_excel("meses_maior_satisfação.xlsx")
 df5.to_excel("meses_menor_lucro.xlsx")
