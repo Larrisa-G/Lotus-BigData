@@ -8,26 +8,36 @@ df['ano'] = df['data de início'].dt.year
 df['mes'] = df['data de início'].dt.month
 
 
-def previsao(df,coluna, ipcas : List[float]):
+def previsao(df, ipcas : List[float]):
+    df_2020 = df[df['data de início'].dt.year == 2000]
+    df_2020 = df_2020.drop(columns=['data de início'])
 
-    def calcular_inflacao_acumulada(ipcas_anuais : List[float]) :
-        ipcas_indices = [(1 + ipca /100) for ipca in ipcas_anuais] # Converter os percentuais em indices
-        inflacao_acumulada = 1
+    def prev(df_2020, ipcas : List[float]):
+        def calcular_inflacao_acumulada(ipcas_anuais : List[float]) :
+            ipcas_indices = [(1 + ipca /100) for ipca in ipcas_anuais] # Converter os percentuais em indices
+            inflacao_acumulada = 1
 
-        for indice in ipcas_indices:
-            inflacao_acumulada *= indice
-        inflacao_acumulada = (inflacao_acumulada - 1)*100 # Voltar para porcentagem
+            for indice in ipcas_indices:
+                inflacao_acumulada *= indice
+            inflacao_acumulada = (inflacao_acumulada - 1)*100 # Voltar para porcentagem
 
-        return inflacao_acumulada
-
-    inflacao_acumulada = calcular_inflacao_acumulada(ipcas) # ipcas de 2021 a 2024 segundo SEBRAS
-    df = df[df['data de início'].dt.year == 2000]
-    df['dado simulado'] = df[coluna] * (1 + inflacao_acumulada /100)
+            return inflacao_acumulada
+        df_2024 = df_2020.copy()
+        inflacao_acumulada = calcular_inflacao_acumulada(ipcas) # ipcas de 2021 a 2024 segundo SEBRAS
+        for coluna in ['valor de material', 'mao de obra', 'valor final da obra', 'administração', 'impostos']:
+            df_2024[coluna] = df_2024[coluna].apply(lambda x: round(x * (1 + inflacao_acumulada / 100), 2))
+        df_2024['ano'] = 2024
+        
+        return df_2024
     
-    return df['dado simulado'].round(2) # Formatar para duas casas decimais
+    df_2024 = prev(df_2020, ipcas)
+    df_combined = pd.concat([df_2020, df_2024], ignore_index=True)
+    
+    return df_combined
 
 def maior_media_por_ano(df,coluna):
     media = df.groupby(['ano', 'mes'])[coluna].mean().reset_index()
+    
     return media.loc[media.groupby('ano')[coluna].idxmax()]
 
 def menor_media_por_ano(df,coluna):
@@ -63,7 +73,7 @@ df6 = moda(df,'clientes')                           # Calcula a moda
 df7 = moda_mensal(df,'clientes')                    # Calcula a moda mensal
 df8 = maior_media_por_mes(df,"classificação")       # mostrar o mês que teve maior média de notas de classificação
 df9 = menor_media_por_mes(df,'administração')       # mostrar o mês que menos gera lucro
-df10 = previsao(df, 'valor de material', [ 10.06, 5.79, 4.62, 1.42])    # Presisão dos valores de material para 2024
+df10 = previsao(df, [ 10.06, 5.79, 4.62, 1.42])    # Presisão dos valores de material para 2024
 
 df1.to_excel("obras_realizadas_desde_fundação.xlsx")
 df2.to_excel("obras_realizadas_mensalmente.xlsx") 
@@ -71,4 +81,5 @@ df4.to_excel("meses_maior_satisfação.xlsx")
 df5.to_excel("meses_menor_lucro.xlsx")
 df8.to_excel("mês_maior_satisfação.xlsx")
 df9.to_excel("mês_menor_lucro.xlsx")
-df10.to_excel("previsão_valor_material_2024.xlsx")
+df10.to_excel("previsão_valor_material__2024.xlsx")
+df.to_excel("dados_200_2020.xlsx")
